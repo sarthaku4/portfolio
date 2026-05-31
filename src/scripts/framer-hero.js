@@ -43,7 +43,7 @@
     });
 
     var avatarImg = document.createElement("img");
-    avatarImg.src = "slideshow/sarth-avatar-cropped.jpeg";
+    avatarImg.src = "/portfolio/slideshow/sarth-avatar-cropped.jpeg";
     avatarImg.alt = "Sarth Avatar";
     Object.assign(avatarImg.style, {
       width: "100%",
