@@ -1,752 +1,733 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Sarth Infocus — ख़यालों को आकार देने की कला।</title>
-<meta name="description" content="Sarthak Ubale — designer, developer, and photographer. Crafting web, graphic & code.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Fragment+Mono:ital@0;1&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="framer.css">
-<style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-
-:root{
-  --bg:#e9e9e4;
-  --text:#262626;
-  --accent:#ff611a;
-  --muted:#999;
-  --border:#d0d0ca;
-  --card:#dededb;
-  --font:'Manrope',sans-serif;
-  --mono:'Fragment Mono',monospace;
-}
-
-html{scroll-behavior:smooth}
-
-body{
-  font-family:var(--font);
-  background:var(--bg);
-  color:var(--text);
-  overflow-x:hidden;
-  cursor:default;
-}
-
-/* ── GRAIN OVERLAY ─────────────────────────────────────── */
-body::before{
-  content:'';
-  position:fixed;
-  inset:0;
-  z-index:1000;
-  pointer-events:none;
-  opacity:.3;
-  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-  background-repeat:repeat;
-  background-size:128px 128px;
-}
-
-/* ── NAVIGATION ────────────────────────────────────────── */
-nav{
-  position:fixed;
-  top:0;left:0;right:0;
-  z-index:500;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:20px 32px;
-  background:transparent;
-}
-
-.nav-logo{
-  width:18px;height:18px;
-  border-radius:50%;
-  background:var(--accent);
-  cursor:pointer;
-  flex-shrink:0;
-  transition:transform .2s ease;
-}
-.nav-logo:hover{transform:scale(1.15)}
-
-.nav-tagline{
-  font-size:13px;
-  font-weight:500;
-  line-height:1.4;
-  text-align:center;
-  color:var(--text);
-  letter-spacing:-.01em;
-  max-width:200px;
-}
-
-.nav-links{
-  display:flex;
-  align-items:center;
-  gap:28px;
-  list-style:none;
-}
-
-.nav-links a{
-  font-size:13px;
-  font-weight:500;
-  color:var(--text);
-  text-decoration:none;
-  letter-spacing:-.01em;
-  opacity:.7;
-  transition:opacity .2s;
-}
-.nav-links a:hover{opacity:1}
-.nav-links a.active{opacity:1}
-
-.nav-menu-btn{
-  background:none;border:none;cursor:pointer;
-  display:flex;flex-direction:column;gap:5px;padding:4px;
-}
-.nav-menu-btn span{
-  display:block;width:20px;height:1.5px;background:var(--text);
-  transition:transform .3s,opacity .3s;
-}
-.nav-menu-btn.open span:nth-child(1){transform:translateY(6.5px) rotate(45deg)}
-.nav-menu-btn.open span:nth-child(2){opacity:0}
-.nav-menu-btn.open span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg)}
-
-/* ── MOBILE MENU ───────────────────────────────────────── */
-.mobile-menu{
-  position:fixed;
-  inset:0;
-  z-index:400;
-  background:var(--bg);
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  gap:40px;
-  opacity:0;
-  pointer-events:none;
-  transition:opacity .3s ease;
-}
-.mobile-menu.open{opacity:1;pointer-events:all}
-.mobile-menu a{
-  font-size:clamp(32px,8vw,64px);
-  font-weight:800;
-  color:var(--text);
-  text-decoration:none;
-  letter-spacing:-.04em;
-  opacity:.3;
-  transition:opacity .2s;
-}
-.mobile-menu a:hover{opacity:1}
-
-/* ── SECTIONS ──────────────────────────────────────────── */
-section{
-  min-height:100vh;
-  display:none;
-  flex-direction:column;
-}
-section.active{display:flex}
-
-/* ── HOME HERO ─────────────────────────────────────────── */
-#home{
-  position:relative;
-  overflow:hidden;
-  justify-content:flex-end;
-}
-
-#home::after {
-  content: '';
-  position: absolute;
-  top: 20%; left: 50%;
-  width: 60vw; height: 60vw;
-  background: radial-gradient(circle, rgba(255,97,26,0.08) 0%, transparent 70%);
-  filter: blur(80px);
-  z-index: 1;
-  pointer-events: none;
-  animation: auraPulse 10s ease-in-out infinite;
-}
-
-@keyframes auraPulse {
-  0%, 100% { transform: translate(-50%, -10%) scale(1); opacity: 0.5; }
-  50% { transform: translate(-45%, -15%) scale(1.1); opacity: 0.8; }
-}
-
-.hero-title{
-  position:absolute;
-  bottom:56px;left:0;
-  width:100%;
-  padding:0 24px;
-  line-height:.85;
-  font-size:clamp(96px,17vw,280px);
-  font-weight:800;
-  letter-spacing:-.05em;
-  color:var(--text);
-  user-select:none;
-  z-index:2;
-}
-
-.hero-title span{
-  display:block;
-}
-
-.hero-bar{
-  position:absolute;
-  bottom:0;left:0;right:0;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:16px 32px;
-  z-index:10;
-}
-
-.hero-bar-left{
-  font-size:13px;
-  font-weight:500;
-  color:var(--text);
-}
-
-.hero-bar-right{
-  font-size:13px;
-  font-weight:500;
-  color:var(--text);
-}
-
-.hero-bar-right a{
-  color:var(--text);
-  text-decoration:underline;
-  text-underline-offset:3px;
-}
-
-/* ── WORK SECTION ──────────────────────────────────────── */
-#work{
-  padding:120px 32px 80px;
-}
-
-.section-header{
-  display:flex;
-  align-items:baseline;
-  justify-content:space-between;
-  margin-bottom:48px;
-  border-bottom:1px solid var(--border);
-  padding-bottom:16px;
-}
-
-.section-title{
-  font-size:11px;
-  font-weight:600;
-  letter-spacing:.12em;
-  text-transform:uppercase;
-  color:var(--muted);
-}
-
-.section-count{
-  font-family:var(--mono);
-  font-size:11px;
-  color:var(--muted);
-}
-
-.work-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(340px,1fr));
-  gap:2px;
-}
-
-.work-card{
-  background:var(--card);
-  padding:32px;
-  cursor:pointer;
-  transition:background .2s;
-  position:relative;
-  overflow:hidden;
-  min-height:280px;
-  display:flex;
-  flex-direction:column;
-  justify-content:space-between;
-}
-.work-card:hover{background:#d4d4d1}
-
-.work-card-tag{
-  font-size:11px;
-  font-weight:600;
-  letter-spacing:.1em;
-  text-transform:uppercase;
-  color:var(--accent);
-  margin-bottom:auto;
-}
-
-.work-card-title{
-  font-size:clamp(22px,3vw,32px);
-  font-weight:700;
-  letter-spacing:-.03em;
-  line-height:1.1;
-  margin:16px 0 8px;
-}
-
-.work-card-desc{
-  font-size:13px;
-  color:var(--muted);
-  line-height:1.6;
-  margin-bottom:24px;
-}
-
-.work-card-footer{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-}
-
-.work-card-year{
-  font-family:var(--mono);
-  font-size:11px;
-  color:var(--muted);
-}
-
-.work-card-arrow{
-  font-size:18px;
-  color:var(--text);
-  opacity:.4;
-  transition:opacity .2s,transform .2s;
-}
-.work-card:hover .work-card-arrow{opacity:1;transform:translate(2px,-2px)}
-
-/* ── ABOUT SECTION ─────────────────────────────────────── */
-#about{
-  padding:120px 32px 80px;
-}
-
-.about-grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:80px;
-  align-items:start;
-  margin-top:48px;
-}
-
-.about-bio{
-  font-size:clamp(18px,2.2vw,26px);
-  font-weight:500;
-  line-height:1.4;
-  letter-spacing:-.02em;
-}
-
-.about-bio em{
-  color:var(--accent);
-  font-style:normal;
-}
-
-.about-details{display:flex;flex-direction:column;gap:32px;}
-
-.about-detail-block{}
-
-.about-detail-label{
-  font-size:11px;
-  font-weight:600;
-  letter-spacing:.12em;
-  text-transform:uppercase;
-  color:var(--muted);
-  margin-bottom:12px;
-}
-
-.about-detail-value{
-  font-size:15px;
-  font-weight:500;
-  line-height:1.6;
-}
-
-.skill-tags{
-  display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;
-}
-
-.skill-tag{
-  font-size:12px;
-  font-weight:600;
-  padding:6px 14px;
-  border:1px solid var(--border);
-  border-radius:100px;
-  letter-spacing:.02em;
-}
-
-/* ── POSTS SECTION ─────────────────────────────────────── */
-#posts{
-  padding:120px 32px 80px;
-}
-
-.posts-list{display:flex;flex-direction:column;gap:0}
-
-.post-row{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:24px 0;
-  border-bottom:1px solid var(--border);
-  cursor:pointer;
-  transition:padding-left .2s;
-}
-.post-row:hover{padding-left:8px}
-
-.post-row-left{flex:1}
-
-.post-tag{
-  font-size:11px;
-  font-weight:600;
-  letter-spacing:.1em;
-  text-transform:uppercase;
-  color:var(--accent);
-  margin-bottom:6px;
-}
-
-.post-title{
-  font-size:clamp(18px,2vw,24px);
-  font-weight:700;
-  letter-spacing:-.02em;
-}
-
-.post-meta{
-  font-family:var(--mono);
-  font-size:11px;
-  color:var(--muted);
-  margin-top:4px;
-}
-
-.post-arrow{
-  font-size:18px;
-  opacity:.3;
-  transition:opacity .2s;
-}
-.post-row:hover .post-arrow{opacity:1}
-
-/* ── CONTACT SECTION ───────────────────────────────────── */
-#contact{
-  padding:120px 32px 80px;
-  justify-content:space-between;
-}
-
-.contact-headline{
-  font-size:clamp(40px,8vw,120px);
-  font-weight:800;
-  letter-spacing:-.05em;
-  line-height:.9;
-  margin-top:48px;
-  max-width:900px;
-}
-
-.contact-headline em{
-  color:var(--accent);
-  font-style:normal;
-}
-
-.contact-links{
-  display:flex;
-  gap:16px;
-  flex-wrap:wrap;
-  margin-top:64px;
-}
-
-.contact-link{
-  display:inline-flex;
-  align-items:center;
-  gap:8px;
-  font-size:13px;
-  font-weight:600;
-  letter-spacing:.04em;
-  text-transform:uppercase;
-  padding:14px 28px;
-  border:1.5px solid var(--text);
-  text-decoration:none;
-  color:var(--text);
-  transition:background .2s,color .2s;
-}
-.contact-link:hover{background:var(--text);color:var(--bg)}
-.contact-link.primary{background:var(--text);color:var(--bg)}
-.contact-link.primary:hover{background:var(--accent);border-color:var(--accent);color:#fff}
-
-/* ── SCROLL REVEAL ─────────────────────────────────────── */
-.reveal{
-  opacity:0;
-  transform:translateY(32px);
-  transition:opacity .7s ease,transform .7s ease;
-}
-.reveal.visible{opacity:1;transform:none}
-
-/* ── RESPONSIVE ────────────────────────────────────────── */
-@media(max-width:768px){
-  nav{padding:16px 20px}
-  .nav-links{display:none}
-  .nav-tagline{display:none}
-  .hero-title{font-size:clamp(64px,15vw,120px);padding:0 16px;bottom:48px;line-height:0.8}
-  .hero-bar{padding:12px 20px; flex-direction: column; gap: 8px; align-items: flex-start;}
-  .about-grid{grid-template-columns:1fr;gap:40px}
-  #work,#about,#posts,#contact{padding:80px 20px 40px}
-  .contact-headline{font-size:clamp(32px,12vw,64px)}
-  .work-grid{grid-template-columns:1fr}
-  .marquee-item { font-size: 40px; margin-right: 24px; }
-}
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sarth Infocus — Designer, Developer, Photographer</title>
+  <meta name="description" content="Sarth Infocus — Award-winning creative leader crafting web, graphic design, and photography. Based in India, open to worldwide collaboration.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Fragment+Mono:ital@0;1&family=Poppins:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="src/styles/styles.css">
 </head>
 <body>
 
-<!-- NAVIGATION -->
-<nav>
-  <div class="nav-logo" onclick="navigate('home')"></div>
-  <ul class="nav-links" id="navLinks">
-    <li><a href="#" onclick="navigate('home')" class="active" id="nav-home">Home</a></li>
-    <li><a href="#" onclick="navigate('work')" id="nav-work">Work</a></li>
-    <li><a href="#" onclick="navigate('about')" id="nav-about">About</a></li>
-    <li><a href="#" onclick="navigate('posts')" id="nav-posts">Posts</a></li>
-    <li><a href="#" onclick="navigate('contact')" id="nav-contact">Contact</a></li>
+<!-- ═══════════════════════════════════════════════════════
+     SECTION 0 — LOADER
+     ═══════════════════════════════════════════════════════ -->
+<div class="loader" id="loader">
+  <div class="loader-grid">
+    <div class="loader-cell"></div><div class="loader-cell"></div><div class="loader-cell"></div>
+    <div class="loader-cell"></div><div class="loader-cell"></div><div class="loader-cell"></div>
+    <div class="loader-cell"></div><div class="loader-cell"></div><div class="loader-cell"></div>
+    <div class="loader-cell"></div><div class="loader-cell"></div><div class="loader-cell"></div>
+    <div class="loader-cell"></div><div class="loader-cell"></div><div class="loader-cell"></div>
+    <div class="loader-cell"></div><div class="loader-cell"></div><div class="loader-cell"></div>
+    <div class="loader-cell"></div><div class="loader-cell"></div><div class="loader-cell"></div>
+    <div class="loader-cell"></div><div class="loader-cell"></div><div class="loader-cell"></div>
+    <div class="loader-cell"></div><div class="loader-cell"></div><div class="loader-cell"></div>
+    <div class="loader-cell"></div><div class="loader-cell"></div><div class="loader-cell"></div>
+    <div class="loader-cell"></div><div class="loader-cell"></div><div class="loader-cell"></div>
+    <div class="loader-cell"></div><div class="loader-cell"></div><div class="loader-cell"></div>
+    <div class="loader-cell"></div><div class="loader-cell"></div><div class="loader-cell"></div>
+    <div class="loader-cell"></div><div class="loader-cell"></div><div class="loader-cell"></div>
+    <div class="loader-cell"></div><div class="loader-cell"></div><div class="loader-cell"></div>
+    <div class="loader-cell"></div><div class="loader-cell"></div><div class="loader-cell"></div>
+  </div>
+  <div class="loader-content">
+    <div class="loader-counter" id="loaderCounter">00</div>
+    <div class="loader-text" id="loaderText">Crafting experience</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     DECORATIVE GRID OVERLAY
+     ═══════════════════════════════════════════════════════ -->
+<div class="grid-overlay" aria-hidden="true">
+  <div class="grid-line"></div><div class="grid-line"></div><div class="grid-line"></div>
+  <div class="grid-line"></div><div class="grid-line"></div><div class="grid-line"></div>
+  <div class="grid-line"></div><div class="grid-line"></div><div class="grid-line"></div>
+  <div class="grid-line"></div><div class="grid-line"></div><div class="grid-line"></div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     NAVIGATION
+     ═══════════════════════════════════════════════════════ -->
+<nav class="site-nav nav-dark" id="siteNav">
+  <a href="#hero" class="nav-brand">SARTH</a>
+  <ul class="nav-links">
+    <li><a href="#services" data-underline-link data-text-roll>Services</a></li>
+    <li><a href="#about" data-underline-link data-text-roll>About</a></li>
+    <li><a href="#portfolio" data-underline-link data-text-roll>Work</a></li>
+    <li><a href="#testimonials" data-underline-link data-text-roll>Reviews</a></li>
+    <li><a href="#contact" data-underline-link data-text-roll>Contact</a></li>
   </ul>
-  <div class="nav-tagline" id="navTagline">ख़यालों को आकार<br>देने की कला।</div>
-  <button class="nav-menu-btn" id="menuBtn" aria-label="Menu" onclick="toggleMenu()">
+  <button class="nav-cta" onclick="document.querySelector('#contact').scrollIntoView({behavior:'smooth'})">Let's Talk</button>
+  <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark/light mode">
+    <svg class="theme-icon theme-icon--sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+    <svg class="theme-icon theme-icon--moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+  </button>
+  <button class="nav-menu-btn" id="menuBtn" aria-label="Toggle menu">
     <span></span><span></span><span></span>
   </button>
 </nav>
 
 <!-- MOBILE MENU -->
 <div class="mobile-menu" id="mobileMenu">
-  <a href="#" onclick="navigate('home');toggleMenu()">Home</a>
-  <a href="#" onclick="navigate('work');toggleMenu()">Work</a>
-  <a href="#" onclick="navigate('about');toggleMenu()">About</a>
-  <a href="#" onclick="navigate('posts');toggleMenu()">Posts</a>
-  <a href="#" onclick="navigate('contact');toggleMenu()">Contact</a>
+  <a href="#hero" data-text-roll>Home</a>
+  <a href="#services" data-text-roll>Services</a>
+  <a href="#about" data-text-roll>About</a>
+  <a href="#portfolio" data-text-roll>Work</a>
+  <a href="#testimonials" data-text-roll>Reviews</a>
+  <a href="#contact" data-text-roll>Contact</a>
 </div>
 
-<!-- HOME -->
-<section id="home" class="active">
-  <div class="hero-title reveal" data-parallax="-0.1">
-    <span>sarth</span>
-    <span>infocus</span>
+<!-- ═══════════════════════════════════════════════════════
+     FRAMER HERO COMPONENT (REACT)
+     ═══════════════════════════════════════════════════════ -->
+<div id="framer-hero-react-root"></div>
+
+<!-- ═══════════════════════════════════════════════════════
+     SECTION 1 — HERO (3D Parallax Slideshow)
+     ═══════════════════════════════════════════════════════ -->
+<section class="hero" id="hero">
+  <!-- Film Grain Overlay -->
+  <svg class="hero-grain-svg" aria-hidden="true">
+    <filter id="heroGrain">
+      <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/>
+      <feColorMatrix type="saturate" values="0"/>
+    </filter>
+  </svg>
+  <div class="hero-grain" aria-hidden="true"></div>
+
+  <!-- Full-screen blurred background of current slide -->
+  <div class="hero-bg-blur" id="heroBgBlur" aria-hidden="true"></div>
+
+  <!-- 3D Perspective Viewport -->
+  <div class="hero-viewport" id="heroViewport">
+    <div class="hero-canvas-3d" id="heroCanvas3D">
+      <!-- Layer 1: Primary slideshow image (front) -->
+      <div class="hero-layer hero-layer--1" id="heroLayer1">
+        <img class="hero-slide hero-slide--active" src="slideshow/604889793746249196.jpg" alt="Design Work" loading="eager">
+        <img class="hero-slide" src="slideshow/Bharatanatyam Poster Art _ Indian Devotional  natraj art.jpg" alt="Bharatanatyam Poster Art" loading="lazy">
+        <img class="hero-slide" src="slideshow/Chhatrapati Shivaji Maharaj_ Bold & Typographic Poster.jpg" alt="Shivaji Maharaj Poster" loading="lazy">
+        <img class="hero-slide" src="slideshow/chatrapati shivaji maharaj 🚩.jpg" alt="Shivaji Maharaj Art" loading="lazy">
+        <img class="hero-slide" src="slideshow/Rhythm & Expression Bharatanatyam POSTER.jpg" alt="Bharatanatyam Expression" loading="lazy">
+        <img class="hero-slide" src="slideshow/NO_- 002 vishnu.jpg" alt="Vishnu Art" loading="lazy">
+        <img class="hero-slide" src="slideshow/1104156033663496814.jpg" alt="Design Work" loading="lazy">
+        <img class="hero-slide" src="slideshow/859343172688990956.jpg" alt="Design Work" loading="lazy">
+      </div>
+
+      <!-- Layer 2: Shadow/echo layer (mid-depth) -->
+      <div class="hero-layer hero-layer--2" id="heroLayer2"></div>
+
+      <!-- Layer 3: Deep background (farthest) -->
+      <div class="hero-layer hero-layer--3" id="heroLayer3"></div>
+
+      <!-- Contour lines (topographic texture) -->
+      <div class="hero-contours" aria-hidden="true"></div>
+    </div>
   </div>
-  <div class="hero-bar">
-    <div class="hero-bar-left">web, graphic &amp; code</div>
-    <div class="hero-bar-right">© 2026 made by <a href="https://www.linkedin.com/in/sarthak-ubale-370454253" target="_blank" rel="noopener">Sarthak Ubale</a></div>
+
+  <!-- Slide Counter -->
+  <div class="hero-slide-counter" id="heroSlideCounter">
+    <span class="hero-slide-current" id="heroSlideCurrent">01</span>
+    <span class="hero-slide-divider">/</span>
+    <span class="hero-slide-total" id="heroSlideTotal">08</span>
+  </div>
+
+  <!-- Slide Progress Bar -->
+  <div class="hero-slide-progress" id="heroSlideProgress">
+    <div class="hero-slide-progress-bar" id="heroSlideProgressBar"></div>
+  </div>
+
+  <div class="hero-content">
+    <div class="hero-motto">देव, देश, धर्म</div>
+    <h1 class="hero-name" data-split="heading">
+      <span class="hero-name-line">Sarth</span>
+      <span class="hero-name-line">Infocus</span>
+    </h1>
+    <div class="hero-sublabel" data-load-text>Designer &amp; Developer</div>
+  </div>
+
+  <div class="hero-bottom">
+    <div class="hero-location">
+      Yavatmal, Pusad — <span id="liveClock">00:00:00 IST</span>
+    </div>
+    <svg class="hero-crosshair" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1">
+      <line x1="16" y1="0" x2="16" y2="32"/>
+      <line x1="0" y1="16" x2="32" y2="16"/>
+      <circle cx="16" cy="16" r="6"/>
+    </svg>
   </div>
 </section>
 
-<!-- WORK -->
-<section id="work">
-  <div class="section-header reveal">
-    <span class="section-title">Selected Work</span>
-    <span class="section-count">06 projects</span>
+<!-- ═══════════════════════════════════════════════════════
+     SECTION 1.5 — TYPOGRAPHY HERO
+     ═══════════════════════════════════════════════════════ -->
+<section class="section section--light typography-hero" id="typography-hero">
+  <div class="container typography-hero-container">
+    <div class="typography-hero-content">
+      <div class="typography-hero-eyebrow">WEB, GRAPHIC & CODE - 2026</div>
+      <h1 class="typography-hero-title">
+        Designing the<br>
+        space<br>
+        between <span class="hindi-text">ख़याल</span><br>
+        and reality.
+      </h1>
+      <p class="typography-hero-subtext">
+        I'm <strong>Sarthak Ubale</strong> — designer, developer, and photographer.<br>
+        Every pixel intentional. Every interaction deliberate.
+      </p>
+      <div class="typography-hero-actions">
+        <a href="#portfolio" class="btn-primary">View my work</a>
+        <a href="#about" class="btn-ghost">About me</a>
+      </div>
+    </div>
+    
+    <div class="typography-hero-footer">
+      <div class="typography-hero-meta">
+        <span>40+ PROJECTS</span>
+        <span class="meta-dot">·</span>
+        <span>03 DISCIPLINES</span>
+        <span class="meta-dot">·</span>
+        <span>AVAILABLE FOR WORK</span>
+      </div>
+      <div class="typography-hero-scroll">SCROLL</div>
+    </div>
   </div>
-  <div class="work-grid">
-    <div class="work-card reveal">
-      <div class="work-card-tag">Web Design</div>
-      <div>
-        <div class="work-card-title">Brand Identity System</div>
-        <div class="work-card-desc">Full visual identity for a Pune-based startup — logo, type, color, and motion.</div>
-      </div>
-      <div class="work-card-footer">
-        <span class="work-card-year">2025</span>
-        <span class="work-card-arrow">⤢</span>
-      </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════
+     SECTION 2 — MARQUEE
+     ═══════════════════════════════════════════════════════ -->
+<div class="marquee">
+  <div class="marquee-track">
+    <div class="marquee-content">
+      <span class="marquee-item">3+ Years Experience</span><span class="marquee-dot"></span>
+      <span class="marquee-item">50+ Projects</span><span class="marquee-dot"></span>
+      <span class="marquee-item">Web Design</span><span class="marquee-dot"></span>
+      <span class="marquee-item">Photography</span><span class="marquee-dot"></span>
+      <span class="marquee-item">Graphic Design</span><span class="marquee-dot"></span>
+      <span class="marquee-item">Video Production</span><span class="marquee-dot"></span>
+      <span class="marquee-item">UI/UX Design</span><span class="marquee-dot"></span>
+      <span class="marquee-item">Branding</span><span class="marquee-dot"></span>
     </div>
-    <div class="work-card reveal" style="transition-delay:.08s">
-      <div class="work-card-tag">Photography</div>
-      <div>
-        <div class="work-card-title">Street & Portrait Series</div>
-        <div class="work-card-desc">Documentary-style photo series capturing everyday life in Nagpur and Mumbai.</div>
-      </div>
-      <div class="work-card-footer">
-        <span class="work-card-year">2025</span>
-        <span class="work-card-arrow">⤢</span>
-      </div>
+    <div class="marquee-content" aria-hidden="true">
+      <span class="marquee-item">3+ Years Experience</span><span class="marquee-dot"></span>
+      <span class="marquee-item">50+ Projects</span><span class="marquee-dot"></span>
+      <span class="marquee-item">Web Design</span><span class="marquee-dot"></span>
+      <span class="marquee-item">Photography</span><span class="marquee-dot"></span>
+      <span class="marquee-item">Graphic Design</span><span class="marquee-dot"></span>
+      <span class="marquee-item">Video Production</span><span class="marquee-dot"></span>
+      <span class="marquee-item">UI/UX Design</span><span class="marquee-dot"></span>
+      <span class="marquee-item">Branding</span><span class="marquee-dot"></span>
     </div>
-    <div class="work-card reveal" style="transition-delay:.16s">
-      <div class="work-card-tag">Development</div>
-      <div>
-        <div class="work-card-title">Portfolio Website</div>
-        <div class="work-card-desc">Hand-coded single-file portfolio with minimal footprint and cinematic aesthetic.</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     SECTION 3 — SERVICES (Bento Grid)
+     ═══════════════════════════════════════════════════════ -->
+<section class="section section--light" id="services">
+  <div class="container">
+    <div class="eyebrow" data-reveal>(a.) Services, Skills, Abilities</div>
+    <h2 class="h2-heading" data-split="heading">What I do best</h2>
+    <p class="body-text-secondary" data-reveal style="max-width:48ch">
+      A multidisciplinary practice spanning design, development, photography, and brand strategy — built to deliver results that look as good as they perform.
+    </p>
+
+    <div class="bento-grid">
+      <!-- Card 01 — spans 2 cols -->
+      <div class="bento-card bento-card--wide bento-card--persistent" data-reveal>
+        <div class="bento-dot-bg"></div>
+        <div class="bento-card-inner">
+          <div class="bento-card-top">
+            <div class="bento-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+            </div>
+            <span class="bento-status">Core</span>
+          </div>
+          <div class="bento-card-body">
+            <h3 class="bento-title">Web Design <span class="bento-meta">01</span></h3>
+            <p class="bento-desc">Custom layout & visual hierarchy. Responsive, mobile-first approach. Interaction design & motion.</p>
+          </div>
+          <div class="bento-card-bottom">
+            <div class="bento-tags">
+              <span class="bento-tag">#Layout</span>
+              <span class="bento-tag">#Responsive</span>
+              <span class="bento-tag">#Motion</span>
+            </div>
+            <span class="bento-cta">Explore →</span>
+          </div>
+        </div>
+        <div class="bento-border-glow"></div>
       </div>
-      <div class="work-card-footer">
-        <span class="work-card-year">2026</span>
-        <span class="work-card-arrow">⤢</span>
+
+      <!-- Card 02 -->
+      <div class="bento-card" data-reveal>
+        <div class="bento-dot-bg"></div>
+        <div class="bento-card-inner">
+          <div class="bento-card-top">
+            <div class="bento-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+            </div>
+            <span class="bento-status">Core</span>
+          </div>
+          <div class="bento-card-body">
+            <h3 class="bento-title">Web Development <span class="bento-meta">02</span></h3>
+            <p class="bento-desc">Hand-coded HTML, CSS, JavaScript. Performance-first architecture. CMS integration & deployment.</p>
+          </div>
+          <div class="bento-card-bottom">
+            <div class="bento-tags">
+              <span class="bento-tag">#Code</span>
+              <span class="bento-tag">#Performance</span>
+            </div>
+            <span class="bento-cta">Explore →</span>
+          </div>
+        </div>
+        <div class="bento-border-glow"></div>
       </div>
-    </div>
-    <div class="work-card reveal" style="transition-delay:.24s">
-      <div class="work-card-tag">Graphic Design</div>
-      <div>
-        <div class="work-card-title">Event Posters</div>
-        <div class="work-card-desc">Series of bold typographic posters for college cultural events.</div>
+
+      <!-- Card 03 -->
+      <div class="bento-card" data-reveal>
+        <div class="bento-dot-bg"></div>
+        <div class="bento-card-inner">
+          <div class="bento-card-top">
+            <div class="bento-icon bento-icon--purple">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="M2 2l7.586 7.586"/><circle cx="11" cy="11" r="2"/></svg>
+            </div>
+            <span class="bento-status">Visual</span>
+          </div>
+          <div class="bento-card-body">
+            <h3 class="bento-title">Graphic Design <span class="bento-meta">03</span></h3>
+            <p class="bento-desc">Posters, banners, social assets. Print-ready deliverables. Typography-driven compositions.</p>
+          </div>
+          <div class="bento-card-bottom">
+            <div class="bento-tags">
+              <span class="bento-tag">#Posters</span>
+              <span class="bento-tag">#Typography</span>
+            </div>
+            <span class="bento-cta">Explore →</span>
+          </div>
+        </div>
+        <div class="bento-border-glow"></div>
       </div>
-      <div class="work-card-footer">
-        <span class="work-card-year">2024</span>
-        <span class="work-card-arrow">⤢</span>
+
+      <!-- Card 04 — spans 2 cols -->
+      <div class="bento-card bento-card--wide" data-reveal>
+        <div class="bento-dot-bg"></div>
+        <div class="bento-card-inner">
+          <div class="bento-card-top">
+            <div class="bento-icon bento-icon--amber">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg>
+            </div>
+            <span class="bento-status">Visual</span>
+          </div>
+          <div class="bento-card-body">
+            <h3 class="bento-title">Photography <span class="bento-meta">04</span></h3>
+            <p class="bento-desc">Street & documentary photography. Portraits & editorial. Color grading & post-processing.</p>
+          </div>
+          <div class="bento-card-bottom">
+            <div class="bento-tags">
+              <span class="bento-tag">#Street</span>
+              <span class="bento-tag">#Portraits</span>
+              <span class="bento-tag">#Grading</span>
+            </div>
+            <span class="bento-cta">Explore →</span>
+          </div>
+        </div>
+        <div class="bento-border-glow"></div>
       </div>
-    </div>
-    <div class="work-card reveal" style="transition-delay:.32s">
-      <div class="work-card-tag">Video</div>
-      <div>
-        <div class="work-card-title">Short Film — Reels</div>
-        <div class="work-card-desc">Cinematic short-form video content. Shot, edited, and color-graded independently.</div>
+
+      <!-- Card 05 -->
+      <div class="bento-card" data-reveal>
+        <div class="bento-dot-bg"></div>
+        <div class="bento-card-inner">
+          <div class="bento-card-top">
+            <div class="bento-icon bento-icon--emerald">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            </div>
+            <span class="bento-status">Strategy</span>
+          </div>
+          <div class="bento-card-body">
+            <h3 class="bento-title">Brand Identity <span class="bento-meta">05</span></h3>
+            <p class="bento-desc">Logo design & visual systems. Color palette & typography. Brand guidelines documentation.</p>
+          </div>
+          <div class="bento-card-bottom">
+            <div class="bento-tags">
+              <span class="bento-tag">#Branding</span>
+              <span class="bento-tag">#Identity</span>
+            </div>
+            <span class="bento-cta">Explore →</span>
+          </div>
+        </div>
+        <div class="bento-border-glow"></div>
       </div>
-      <div class="work-card-footer">
-        <span class="work-card-year">2025</span>
-        <span class="work-card-arrow">⤢</span>
+
+      <!-- Card 06 -->
+      <div class="bento-card" data-reveal>
+        <div class="bento-dot-bg"></div>
+        <div class="bento-card-inner">
+          <div class="bento-card-top">
+            <div class="bento-icon bento-icon--rose">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+            </div>
+            <span class="bento-status">Motion</span>
+          </div>
+          <div class="bento-card-body">
+            <h3 class="bento-title">Video Production <span class="bento-meta">06</span></h3>
+            <p class="bento-desc">Short-form cinematic content. Shooting & direction. Editing & color grading.</p>
+          </div>
+          <div class="bento-card-bottom">
+            <div class="bento-tags">
+              <span class="bento-tag">#Cinema</span>
+              <span class="bento-tag">#Editing</span>
+            </div>
+            <span class="bento-cta">Explore →</span>
+          </div>
+        </div>
+        <div class="bento-border-glow"></div>
       </div>
-    </div>
-    <div class="work-card reveal" style="transition-delay:.40s">
-      <div class="work-card-tag">UI/UX</div>
-      <div>
-        <div class="work-card-title">App Interface Design</div>
-        <div class="work-card-desc">Mobile-first UI for a productivity app — wireframes through high-fidelity Figma.</div>
+
+      <!-- Card 07 — spans 2 cols -->
+      <div class="bento-card bento-card--wide" data-reveal>
+        <div class="bento-dot-bg"></div>
+        <div class="bento-card-inner">
+          <div class="bento-card-top">
+            <div class="bento-icon bento-icon--sky">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+            </div>
+            <span class="bento-status">Product</span>
+          </div>
+          <div class="bento-card-body">
+            <h3 class="bento-title">UI/UX Design <span class="bento-meta">07</span></h3>
+            <p class="bento-desc">Wireframes & user flows. High-fidelity Figma mockups. Usability testing & iteration.</p>
+          </div>
+          <div class="bento-card-bottom">
+            <div class="bento-tags">
+              <span class="bento-tag">#Wireframes</span>
+              <span class="bento-tag">#Figma</span>
+              <span class="bento-tag">#UX</span>
+            </div>
+            <span class="bento-cta">Explore →</span>
+          </div>
+        </div>
+        <div class="bento-border-glow"></div>
       </div>
-      <div class="work-card-footer">
-        <span class="work-card-year">2024</span>
-        <span class="work-card-arrow">⤢</span>
+
+      <!-- Card 08 -->
+      <div class="bento-card" data-reveal>
+        <div class="bento-dot-bg"></div>
+        <div class="bento-card-inner">
+          <div class="bento-card-top">
+            <div class="bento-icon bento-icon--teal">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            </div>
+            <span class="bento-status">Growth</span>
+          </div>
+          <div class="bento-card-body">
+            <h3 class="bento-title">Social Media <span class="bento-meta">08</span></h3>
+            <p class="bento-desc">Content strategy & calendars. Visual templates & systems. Analytics-driven optimization.</p>
+          </div>
+          <div class="bento-card-bottom">
+            <div class="bento-tags">
+              <span class="bento-tag">#Strategy</span>
+              <span class="bento-tag">#Analytics</span>
+            </div>
+            <span class="bento-cta">Explore →</span>
+          </div>
+        </div>
+        <div class="bento-border-glow"></div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ABOUT -->
-<section id="about">
-  <div class="section-header reveal">
-    <span class="section-title">About</span>
-  </div>
-  <div class="about-grid">
-    <div class="about-bio reveal">
-      I'm <em>Sarthak Ubale</em> — a multidisciplinary creator working at the intersection of <em>code</em>, <em>design</em>, and <em>photography</em>.<br><br>
-      I build things that look good, work well, and feel intentional. Currently based in India, open to work worldwide.
-    </div>
-    <div class="about-details">
-      <div class="about-detail-block reveal">
-        <div class="about-detail-label">Disciplines</div>
-        <div class="skill-tags">
-          <span class="skill-tag">Web Dev</span>
-          <span class="skill-tag">UI Design</span>
-          <span class="skill-tag">Photography</span>
-          <span class="skill-tag">Graphic Design</span>
-          <span class="skill-tag">Video</span>
-          <span class="skill-tag">Branding</span>
+<!-- ═══════════════════════════════════════════════════════
+     SECTION 4 — ABOUT
+     ═══════════════════════════════════════════════════════ -->
+<section class="section section--dark" id="about">
+  <div class="container">
+    <div class="about-split">
+      <!-- Left: Image -->
+      <div class="about-media" data-parallax>
+        <img src="images/profile.png" alt="Sarth Infocus — Creative Portfolio" loading="lazy">
+      </div>
+      <!-- Right: Content -->
+      <div class="about-sticky">
+        <div class="eyebrow-dark" data-reveal>/ (b.) About Me</div>
+        
+        <h2 class="h2-heading" data-split="heading" style="color:var(--off-white-text); font-size: clamp(2rem, 4vw, 3rem); margin-bottom: 0.5rem; letter-spacing: -0.02em;">
+          Sarthak Ubale <span style="color: var(--bone-muted); font-size: 0.55em; vertical-align: middle; font-weight: 400; font-family: var(--font-body);">(Sarth Infocus)</span>
+        </h2>
+        
+        <p class="body-text-secondary" data-reveal style="color:var(--off-white-text); font-weight: 500; font-size: 0.9rem; margin-bottom: 0.25rem;">
+          Computer Science Student · AI Developer · Graphic Designer · Photographer
+        </p>
+        <p class="body-text-secondary" data-reveal style="color:var(--bone-muted); font-size: 0.8rem; margin-bottom: 2.5rem; font-family: var(--font-mono); text-transform: uppercase; letter-spacing: 0.05em;">
+          Yavatmal, Maharashtra, India · Open to work worldwide
+        </p>
+
+        <div class="about-content-block" data-reveal>
+          <h3 style="color:var(--off-white-text); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 1rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 0.75rem; font-family: var(--font-mono);">About</h3>
+          <div id="about-info-react-root"></div>
+        </div>
+
+        <div class="about-content-block" data-reveal style="margin-top: 2rem;">
+          <h3 style="color:var(--off-white-text); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 1rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 0.75rem; font-family: var(--font-mono);">What I Do</h3>
+          <ul style="list-style: none; padding: 0; color: rgba(255,255,255,0.75); font-size: 0.9rem; line-height: 1.8;">
+            <li style="margin-bottom: 0.5rem; display: flex; flex-wrap: wrap; gap: 0.5rem;"><strong style="color: var(--off-white-text); min-width: 140px;">AI & Development</strong> <span style="color: var(--bone-muted);">— Generative AI, Model Context Protocol (MCP), Python, C</span></li>
+            <li style="margin-bottom: 0.5rem; display: flex; flex-wrap: wrap; gap: 0.5rem;"><strong style="color: var(--off-white-text); min-width: 140px;">Design</strong> <span style="color: var(--bone-muted);">— Graphic Design, Visual Communication, Layouts</span></li>
+            <li style="margin-bottom: 0.5rem; display: flex; flex-wrap: wrap; gap: 0.5rem;"><strong style="color: var(--off-white-text); min-width: 140px;">Photography</strong> <span style="color: var(--bone-muted);">— Content Photography, Digital Media</span></li>
+            <li style="margin-bottom: 0.5rem; display: flex; flex-wrap: wrap; gap: 0.5rem;"><strong style="color: var(--off-white-text); min-width: 140px;">Social Media</strong> <span style="color: var(--bone-muted);">— Content Strategy, Platform Management, Creative Direction</span></li>
+          </ul>
+        </div>
+
+        <div class="about-content-block" data-reveal style="margin-top: 2rem; margin-bottom: 2.5rem;">
+          <h3 style="color:var(--off-white-text); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 1rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 0.75rem; font-family: var(--font-mono);">Currently</h3>
+          <ul style="list-style: none; padding: 0; color: rgba(255,255,255,0.75); font-size: 0.9rem; line-height: 1.8;">
+            <li style="position: relative; padding-left: 1.25rem;"><span style="position: absolute; left: 0; color: rgba(255,255,255,0.3);">·</span> BE Computer Science — BNCOE, Pusad (2024–Present)</li>
+            <li style="position: relative; padding-left: 1.25rem;"><span style="position: absolute; left: 0; color: rgba(255,255,255,0.3);">·</span> Content & Media Member — HICA BNCOE</li>
+            <li style="position: relative; padding-left: 1.25rem;"><span style="position: absolute; left: 0; color: rgba(255,255,255,0.3);">·</span> Social Media Team — Babasaheb Naik College of Engineering</li>
+          </ul>
+        </div>
+
+        <div class="about-actions" data-reveal>
+          <a href="#contact" class="btn-ghost-dark">Schedule a Call</a>
+          <button class="btn-ghost-dark" onclick="navigator.clipboard.writeText('usarthakavinash@gmail.com');this.textContent='Copied!'">Copy Email</button>
+          <a href="assets/Sarthak_Ubale_CV.png" download="Sarthak_Ubale_CV.png" class="btn-ghost-dark">Download CV</a>
+        </div>
+
+        <div class="about-social" data-reveal>
+          <a href="https://www.instagram.com/sarth_infocus/" target="_blank" rel="noopener" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+          </a>
+          <a href="https://www.linkedin.com/in/sarthak-ubale-370454253" target="_blank" rel="noopener" aria-label="LinkedIn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-4 0v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+          </a>
+          <a href="https://youtube.com" target="_blank" rel="noopener" aria-label="YouTube">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 00-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 00-1.94 2A29 29 0 001 12a29 29 0 00.46 5.58 2.78 2.78 0 001.94 2c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 001.94-2A29 29 0 0023 12a29 29 0 00-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/></svg>
+          </a>
         </div>
       </div>
-      <div class="about-detail-block reveal" style="transition-delay:.1s">
-        <div class="about-detail-label">Tools</div>
-        <div class="skill-tags">
-          <span class="skill-tag">Figma</span>
-          <span class="skill-tag">HTML/CSS/JS</span>
-          <span class="skill-tag">Lightroom</span>
-          <span class="skill-tag">Premiere Pro</span>
-          <span class="skill-tag">Illustrator</span>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- ═══════════════════════════════════════════════════════
+     SECTION 6 — PORTFOLIO / SELECTED WORK
+     ═══════════════════════════════════════════════════════ -->
+<section class="section" id="portfolio" style="padding:0; background:transparent; border-top:1px solid rgba(255,255,255,0.05);">
+  <div id="topology-background-root"></div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     SECTION 8 — WORK EXPERIENCE
+     ═══════════════════════════════════════════════════════ -->
+<section class="section section--dark" id="experience">
+  <div class="container">
+    <div class="eyebrow-dark" data-reveal>/ (f.) Career</div>
+    <h2 class="h2-heading" data-split="heading" style="color:var(--off-white-text)">Work Experience</h2>
+
+    <div class="experience-list">
+      <div class="experience-item">
+        <div class="experience-header">
+          <div class="experience-info">
+            <span class="experience-company">Freelance Creative</span>
+            <span class="experience-role">Designer, Developer &amp; Photographer</span>
+          </div>
+          <span class="experience-dates">2023 — Present</span>
+          <span class="experience-toggle">+</span>
+        </div>
+        <div class="experience-body">
+          <div class="experience-body-inner">
+            <p class="experience-description">
+              Independent practice spanning web design, development, photography, and brand identity. Delivered 50+ projects for clients across India. Specialized in hand-coded websites with cinematic aesthetics and intentional design systems.
+            </p>
+          </div>
         </div>
       </div>
-      <div class="about-detail-block reveal" style="transition-delay:.2s">
-        <div class="about-detail-label">Currently</div>
-        <div class="about-detail-value">Open to freelance &amp; full-time opportunities. Let's make something great.</div>
+
+      <div class="experience-item">
+        <div class="experience-header">
+          <div class="experience-info">
+            <span class="experience-company">University Design Lead</span>
+            <span class="experience-role">Visual Design &amp; Creative Direction</span>
+          </div>
+          <span class="experience-dates">2022 — 2025</span>
+          <span class="experience-toggle">+</span>
+        </div>
+        <div class="experience-body">
+          <div class="experience-body-inner">
+            <p class="experience-description">
+              Led visual design for university cultural events, tech fests, and student organizations. Created poster series, social media campaigns, and event branding. Managed a team of junior designers and photographers.
+            </p>
+          </div>
+        </div>
       </div>
-      <div class="about-detail-block reveal" style="transition-delay:.3s">
-        <div class="about-detail-label">Education</div>
-        <div class="about-detail-value">B.E. / B.Tech — Engineering<br>India, 2022–2026</div>
+
+      <div class="experience-item">
+        <div class="experience-header">
+          <div class="experience-info">
+            <span class="experience-company">Photography Studio Intern</span>
+            <span class="experience-role">Shooting &amp; Post-Production</span>
+          </div>
+          <span class="experience-dates">2023</span>
+          <span class="experience-toggle">+</span>
+        </div>
+        <div class="experience-body">
+          <div class="experience-body-inner">
+            <p class="experience-description">
+              Assisted senior photographers in studio and on-location shoots. Learned advanced lighting techniques, color grading workflows, and client delivery processes. Shot and edited independently by end of internship.
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- POSTS -->
-<section id="posts">
-  <div class="section-header reveal">
-    <span class="section-title">Posts &amp; Writing</span>
-    <span class="section-count">04 posts</span>
-  </div>
-  <div class="posts-list">
-    <div class="post-row reveal">
-      <div class="post-row-left">
-        <div class="post-tag">Design</div>
-        <div class="post-title">Why I stopped using templates</div>
-        <div class="post-meta">May 2026 · 4 min read</div>
+<!-- ═══════════════════════════════════════════════════════
+     SECTION 9 — CONTACT
+     ═══════════════════════════════════════════════════════ -->
+<section class="section section--light" id="contact">
+  <div class="container">
+    <div class="eyebrow" data-reveal>/ (g.) Say Hello</div>
+    <h2 class="h2-heading" data-split="heading">Let's work<br>together</h2>
+
+    <div class="contact-split">
+      <form class="contact-form" data-reveal id="contactForm">
+        <input type="hidden" name="access_key" value="a4f73d3f-ec06-44f5-bde4-ff51788d96ae">
+        <input type="hidden" name="to_email" value="usarthakavinash@gmail.com">
+        <input type="hidden" name="subject" value="New Portfolio Contact — From Website">
+        <input type="hidden" name="from_name" value="Portfolio Contact Form">
+        <input type="checkbox" name="botcheck" style="display:none">
+        <div class="form-group">
+          <label class="form-label" for="contactName">Your Name</label>
+          <input class="form-input" type="text" id="contactName" name="name" required autocomplete="name">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="contactEmail">Email Address</label>
+          <input class="form-input" type="email" id="contactEmail" name="email" required autocomplete="email">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="contactMessage">Your Message</label>
+          <textarea class="form-input" id="contactMessage" name="message" required></textarea>
+        </div>
+        <button type="submit" class="btn-primary" id="contactSubmitBtn">Send Message</button>
+        <p id="contactFormStatus" style="margin-top:12px;font-size:14px;display:none"></p>
+      </form>
+
+      <div class="contact-meta" data-reveal>
+        <div>
+          <div class="contact-meta-label">Email</div>
+          <div class="contact-meta-value"><a href="mailto:usarthakavinash@gmail.com">usarthakavinash@gmail.com</a></div>
+        </div>
+        <div>
+          <div class="contact-meta-label">Location</div>
+          <div class="contact-meta-value">Yavatmal, Pusad, Maharashtra, India</div>
+        </div>
+        <div>
+          <div class="contact-meta-label">Social</div>
+          <div class="contact-meta-value">
+            <a href="https://www.linkedin.com/in/sarthak-ubale-370454253" target="_blank" rel="noopener" data-underline-link>LinkedIn</a> ·
+            <a href="https://www.instagram.com/sarth_infocus/" target="_blank" rel="noopener" data-underline-link>Instagram</a> ·
+            <a href="https://youtube.com" target="_blank" rel="noopener" data-underline-link>YouTube</a>
+          </div>
+        </div>
+        <div>
+          <div class="contact-meta-label">Availability</div>
+          <div class="contact-meta-value">Open to freelance &amp; full-time opportunities</div>
+        </div>
       </div>
-      <span class="post-arrow">→</span>
-    </div>
-    <div class="post-row reveal" style="transition-delay:.08s">
-      <div class="post-row-left">
-        <div class="post-tag">Photography</div>
-        <div class="post-title">Shooting with available light only</div>
-        <div class="post-meta">Apr 2026 · 6 min read</div>
-      </div>
-      <span class="post-arrow">→</span>
-    </div>
-    <div class="post-row reveal" style="transition-delay:.16s">
-      <div class="post-row-left">
-        <div class="post-tag">Development</div>
-        <div class="post-title">Building a portfolio with zero dependencies</div>
-        <div class="post-meta">Mar 2026 · 8 min read</div>
-      </div>
-      <span class="post-arrow">→</span>
-    </div>
-    <div class="post-row reveal" style="transition-delay:.24s">
-      <div class="post-row-left">
-        <div class="post-tag">Thoughts</div>
-        <div class="post-title">ख़यालों को आकार देना — the art of making ideas real</div>
-        <div class="post-meta">Feb 2026 · 5 min read</div>
-      </div>
-      <span class="post-arrow">→</span>
     </div>
   </div>
 </section>
 
-<!-- CONTACT -->
-<section id="contact">
-  <div class="section-header reveal">
-    <span class="section-title">Contact</span>
+<!-- ═══════════════════════════════════════════════════════
+     SECTION 10 — FOOTER
+     ═══════════════════════════════════════════════════════ -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-display">
+      <div class="footer-display-text">Let's make<br>something</div>
+      <div class="footer-display-text">great<br>together ©</div>
+    </div>
+    <div class="footer-divider"></div>
+    <div class="footer-bottom">
+      <div class="footer-copyright">© 2026 Sarth Infocus. All rights reserved.</div>
+      <ul class="footer-links">
+        <li><a href="#hero" data-underline-link>Home</a></li>
+        <li><a href="#services" data-underline-link>Services</a></li>
+        <li><a href="#portfolio" data-underline-link>Work</a></li>
+        <li><a href="#contact" data-underline-link>Contact</a></li>
+      </ul>
+      <div class="footer-social">
+        <a href="https://www.instagram.com/sarth_infocus/" target="_blank" rel="noopener" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+        </a>
+        <a href="https://www.linkedin.com/in/sarthak-ubale-370454253" target="_blank" rel="noopener" aria-label="LinkedIn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-4 0v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+        </a>
+        <a href="https://youtube.com" target="_blank" rel="noopener" aria-label="YouTube">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 00-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 00-1.94 2A29 29 0 001 12a29 29 0 00.46 5.58 2.78 2.78 0 001.94 2c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 001.94-2A29 29 0 0023 12a29 29 0 00-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/></svg>
+        </a>
+      </div>
+    </div>
   </div>
-  <div class="contact-headline reveal">
-    Let's make<br>something<br><em class="gradient-text">real.</em>
-  </div>
-  <div class="contact-links reveal" style="transition-delay:.15s">
-    <a class="contact-link primary" href="mailto:sarthak@example.com">✉ Email Me</a>
-    <a class="contact-link" href="https://www.linkedin.com/in/sarthak-ubale-370454253" target="_blank" rel="noopener">LinkedIn</a>
-    <a class="contact-link" href="https://instagram.com" target="_blank" rel="noopener">Instagram</a>
-  </div>
-</section>
+</footer>
 
+<!-- ═══════════════════════════════════════════════════════
+     SCRIPTS
+     ═══════════════════════════════════════════════════════ -->
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/ScrollTrigger.min.js"></script>
+<script src="src/scripts/engine.js"></script>
+<script src="src/scripts/framer-hero.js"></script>
+<script src="src/scripts/topology-background.js"></script>
+
+<script src="src/scripts/blur-text-animation.js"></script>
 <script>
-// ── NAVIGATION ───────────────────────────────────────────
-function navigate(id) {
-  // Hide all sections
-  document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
-  // Show target
-  const target = document.getElementById(id);
-  if (target) { target.classList.add('active'); window.scrollTo(0,0); }
-  // Update nav active state
-  document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
-  const activeLink = document.getElementById('nav-' + id);
-  if (activeLink) activeLink.classList.add('active');
-  // Update tagline visibility
-  const tagline = document.getElementById('navTagline');
-  tagline.style.display = id === 'home' ? 'block' : 'none';
-  // Trigger reveals
-  setTimeout(triggerReveals, 50);
-  return false;
-}
-
-// ── MOBILE MENU ──────────────────────────────────────────
-function toggleMenu() {
-  const btn = document.getElementById('menuBtn');
-  const menu = document.getElementById('mobileMenu');
-  btn.classList.toggle('open');
-  menu.classList.toggle('open');
-}
-
-// ── SCROLL REVEAL ────────────────────────────────────────
-function triggerReveals() {
-  const section = document.querySelector('section.active');
-  if (!section) return;
-  section.querySelectorAll('.reveal').forEach((el, i) => {
-    setTimeout(() => el.classList.add('visible'), i * 40);
+// ── Contact Form → Web3Forms ──
+document.addEventListener('DOMContentLoaded', function() {
+  const form = document.getElementById('contactForm');
+  if (!form) return;
+  form.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const btn = document.getElementById('contactSubmitBtn');
+    const status = document.getElementById('contactFormStatus');
+    btn.disabled = true;
+    btn.textContent = 'Sending...';
+    status.style.display = 'none';
+    try {
+      const formData = new FormData(form);
+      const res = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        body: formData
+      });
+      const data = await res.json();
+      if (data.success) {
+        status.textContent = '✓ Message sent successfully! I\'ll get back to you soon.';
+        status.style.color = '#22c55e';
+        status.style.display = 'block';
+        form.reset();
+      } else {
+        throw new Error(data.message || 'Something went wrong');
+      }
+    } catch (err) {
+      status.textContent = '✗ Failed to send. Please email me directly at usarthakavinash@gmail.com';
+      status.style.color = '#ef4444';
+      status.style.display = 'block';
+    }
+    btn.disabled = false;
+    btn.textContent = 'Send Message';
   });
-}
-
-// ── HERO TITLE MAGNETIC EFFECT ───────────────────────────
-document.addEventListener('mousemove', e => {
-  const hero = document.getElementById('home');
-  if (!hero.classList.contains('active')) return;
-  const title = hero.querySelector('.hero-title');
-  if (!title) return;
-  const x = (e.clientX / window.innerWidth - .5) * 10;
-  const y = (e.clientY / window.innerHeight - .5) * 6;
-  title.style.transform = `translate(${x}px, ${y}px)`;
 });
-
-// ── INIT ─────────────────────────────────────────────────
-navigate('home');
 </script>
-<script src="framer.js"></script>
 </body>
 </html>
